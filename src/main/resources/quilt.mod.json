@@ -1,0 +1,39 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "com.averageturtle",
+		"id": "harvest_haven",
+		"version": "${version}",
+		"metadata": {
+			"name": "Harvest Haven",
+			"description": "A mod that seeks enhance farming and cooking",
+			"contributors": {
+				"AverageTurtle": "Owner"
+			},
+			"contact": {
+				"issues": "TODO",
+				"sources": "TODO"
+			},
+			"icon": "assets/harvest_haven/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": "com.averageturtle.harvest_haven.HarvestHaven"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.17.6-"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=5.0.0-"
+			},
+			{
+				"id": "minecraft",
+				"versions": ">=1.19.3"
+			}
+		]
+	},
+	"mixin": "harvest_haven.mixins.json"
+}
