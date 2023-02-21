@@ -18,7 +18,8 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "com.averageturtle.harvest_haven.HarvestHaven"
+			"init": "com.averageturtle.harvest_haven.HarvestHaven",
+			"client_init": "com.averageturtle.harvest_haven.client.HarvestHavenClient"
 		},
 		"depends": [
 			{

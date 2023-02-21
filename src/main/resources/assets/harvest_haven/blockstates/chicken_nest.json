@@ -1,0 +1,30 @@
+{
+    "variants": {
+        "egg_count=0": [
+            {
+              "model": "harvest_haven:block/chicken_nest"
+            }
+          ],
+          "egg_count=1": [
+            {
+              "model": "harvest_haven:block/chicken_nest_one_egg"
+            }
+          ],
+          "egg_count=2": [
+            {
+              "model": "harvest_haven:block/chicken_nest_two_egg"
+            }
+          ],
+          "egg_count=3": [
+            {
+              "model": "harvest_haven:block/chicken_nest_three_egg"
+            }
+          ],
+          "egg_count=4": [
+            {
+              "model": "harvest_haven:block/chicken_nest_four_egg"
+            }
+          ]
+          
+    }
+}

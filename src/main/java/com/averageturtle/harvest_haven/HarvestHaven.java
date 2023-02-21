@@ -1,6 +1,7 @@
 package com.averageturtle.harvest_haven;
 
-import com.averageturtle.harvest_haven.Item.HHItems;
+import com.averageturtle.harvest_haven.block.HHBlocks;
+import com.averageturtle.harvest_haven.item.HHItems;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
@@ -15,5 +16,6 @@ public class HarvestHaven implements ModInitializer {
 	@Override
 	public void onInitialize(ModContainer mod) {
 		HHItems.RegisterItems();
+		HHBlocks.RegisterBlocks();
 	}
 }
