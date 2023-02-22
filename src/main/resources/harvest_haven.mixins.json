@@ -3,10 +3,11 @@
 	"minVersion": "0.8",
 	"package": "com.averageturtle.harvest_haven.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"mixins": [],
-	"client": [
-		"TitleScreenMixin"
-	],
+	"mixins": [
+      "ChickenEntityMixin"
+    ],
+    "client": [],
+	"server": [],
 	"injectors": {
 		"defaultRequire": 1
 	}

@@ -75,7 +75,7 @@ public class ChickenNest extends BlockWithEntity {
 			return;
 		}
 
-		if (world.random.nextInt(10/fertile) == 0) {
+		if (world.random.nextInt(10) == 0) {
 			Integer egg_count = state.get(EGG_COUNT);
 
 			egg_count--;
@@ -94,7 +94,7 @@ public class ChickenNest extends BlockWithEntity {
 			ChickenEntity chickenEntity = EntityType.CHICKEN.create(world);
 			if(chickenEntity != null) {
 				chickenEntity.setBaby(true);
-				chickenEntity.refreshPositionAndAngles((double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.3, 0.0F, 0.0F);
+				chickenEntity.refreshPositionAndAngles((double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.3, 0.0F, 0.0F);
 				world.spawnEntity(chickenEntity);
 			}
 		}

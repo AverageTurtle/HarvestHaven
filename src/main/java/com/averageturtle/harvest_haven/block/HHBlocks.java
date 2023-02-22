@@ -21,7 +21,7 @@ import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class HHBlocks {
 
-	public static  ChickenNest CHICKEN_NEST = new ChickenNest(QuiltBlockSettings.of(Material.EGG, MapColor.OFF_WHITE).strength(0.5F).sounds(BlockSoundGroup.GRASS).ticksRandomly().nonOpaque().noCollision());
+	public static  ChickenNest CHICKEN_NEST = new ChickenNest(QuiltBlockSettings.of(Material.EGG, MapColor.OFF_WHITE).strength(0.1F).sounds(BlockSoundGroup.GRASS).ticksRandomly().nonOpaque().noCollision());
 	public static BlockEntityType<ChickenNestBlockEntity> CHICK_NEST_BLOCK_ENTITY = QuiltBlockEntityTypeBuilder.create(ChickenNestBlockEntity::new, CHICKEN_NEST).build();
 	public static void RegisterBlocks() {
 		HarvestHaven.LOGGER.info("Registering blocks!");
