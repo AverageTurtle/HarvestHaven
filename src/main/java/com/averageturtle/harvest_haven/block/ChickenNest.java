@@ -76,7 +76,7 @@ public class ChickenNest extends BlockWithEntity {
 			return;
 		}
 
-		if (world.random.nextInt(1) == 0) {
+		if (world.random.nextInt(2) == 0) {
 			Integer egg_count = state.get(EGG_COUNT);
 
 			egg_count--;

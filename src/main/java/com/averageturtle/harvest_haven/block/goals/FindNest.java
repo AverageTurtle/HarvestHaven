@@ -16,7 +16,7 @@ import net.minecraft.world.chunk.ChunkStatus;
 public class FindNest extends MoveToTargetPosGoal {
 	private static final Block TARGET_BLOCK = HHBlocks.CHICKEN_NEST;
 
-	public ChickenEntity chickenEntity;
+	public final ChickenEntity chickenEntity;
 
 	public FindNest(ChickenEntity chicken, double speed, int range, int maxYDifference) {
 		super(chicken, speed, range, maxYDifference);
@@ -39,11 +39,6 @@ public class FindNest extends MoveToTargetPosGoal {
 	@Override
 	public void stop() {
 
-	}
-
-	@Override
-	public void tick() {
-		super.tick();
 	}
 
 	@Override

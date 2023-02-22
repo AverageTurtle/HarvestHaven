@@ -1,6 +1,5 @@
 package com.averageturtle.harvest_haven.mixin;
 
-import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.ChickenNest;
 import com.averageturtle.harvest_haven.block.HHBlocks;
 import com.averageturtle.harvest_haven.block.goals.FindNest;
@@ -57,11 +56,15 @@ public class ChickenEntityMixin extends AnimalEntity implements ChickenEntityInt
 		if(nbt.contains("harvest_haven:EggLayTime")) {
 			this.hhEggLayTime = nbt.getInt("harvest_haven:EggLayTime");
 		}
+		if(nbt.contains("harvest_haven:Fertilized")) {
+			this.fertilized = nbt.getBoolean("harvest_haven:Fertilized");
+		}
 	}
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	public void harvest_haven$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
 		nbt.putInt("harvest_haven:EggLayTime", this.hhEggLayTime);
+		nbt.putBoolean("harvest_haven:Fertilized", this.fertilized);
 	}
 
 	@Override
@@ -92,11 +95,6 @@ public class ChickenEntityMixin extends AnimalEntity implements ChickenEntityInt
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
 		return EntityType.CHICKEN.create(world);
-	}
-
-	@Override
-	public boolean fertilized() {
-		return fertilized;
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.averageturtle.harvest_haven.client;
 
-import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.HHBlocks;
 import net.minecraft.client.render.RenderLayer;
 import org.quiltmc.loader.api.ModContainer;
