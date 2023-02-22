@@ -21,12 +21,15 @@ import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class HHBlocks {
 
-	public static  ChickenNest CHICKEN_NEST = new ChickenNest(QuiltBlockSettings.of(Material.EGG, MapColor.OFF_WHITE).strength(0.1F).sounds(BlockSoundGroup.GRASS).ticksRandomly().nonOpaque().noCollision());
+	public static  ChickenNest CHICKEN_NEST = new ChickenNest(QuiltBlockSettings.of(Material.EGG, MapColor.OFF_WHITE).strength(0.0F).sounds(BlockSoundGroup.GRASS).ticksRandomly().nonOpaque().noCollision());
+
 	public static BlockEntityType<ChickenNestBlockEntity> CHICK_NEST_BLOCK_ENTITY = QuiltBlockEntityTypeBuilder.create(ChickenNestBlockEntity::new, CHICKEN_NEST).build();
+
 	public static void RegisterBlocks() {
 		HarvestHaven.LOGGER.info("Registering blocks!");
 
 		RegisterBlock("chicken_nest", ItemGroups.NATURAL, CHICKEN_NEST);
+
 		Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(HarvestHaven.MODID, "chicken_nest"), CHICK_NEST_BLOCK_ENTITY);
 	}
 	static void RegisterBlock(final String name, ItemGroup itemGroup,final Block block) {

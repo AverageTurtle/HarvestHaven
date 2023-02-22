@@ -1,5 +1,6 @@
 package com.averageturtle.harvest_haven.block;
 
+import com.averageturtle.harvest_haven.HHBlockTags;
 import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.entity.ChickenNestBlockEntity;
 import net.minecraft.block.*;
@@ -75,7 +76,7 @@ public class ChickenNest extends BlockWithEntity {
 			return;
 		}
 
-		if (world.random.nextInt(10) == 0) {
+		if (world.random.nextInt(1) == 0) {
 			Integer egg_count = state.get(EGG_COUNT);
 
 			egg_count--;
@@ -125,7 +126,7 @@ public class ChickenNest extends BlockWithEntity {
 
 	@Override
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		return sideCoversSmallSquare(world, pos.down(), Direction.UP) || world.getBlockState(pos.down()).isOf(Blocks.HOPPER);
+		return sideCoversSmallSquare(world, pos.down(), Direction.UP) || world.getBlockState(pos.down()).isIn(HHBlockTags.VALID_NEST_PLACEMENT);
 	}
 
 

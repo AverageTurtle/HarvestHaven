@@ -1,5 +1,6 @@
 package com.averageturtle.harvest_haven.block.entity;
 
+import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.ChickenNest;
 import com.averageturtle.harvest_haven.block.HHBlocks;
 import net.minecraft.block.BlockState;
@@ -72,15 +73,11 @@ public class ChickenNestBlockEntity extends BlockEntity implements Inventory, Qu
 
 	@Override
 	public void setStack(int slot, ItemStack stack) {
-		if(stack.isOf(Items.EGG)) {
-			assert world != null;
-			Integer egg_count = world.getBlockState(pos).get(ChickenNest.EGG_COUNT);
-			egg_count += stack.getCount();
-			if(egg_count > 4) {
-				ChickenNest.SetEggCount(4, world, pos);
-			}
-			ChickenNest.SetEggCount(egg_count, world, pos);
-		}
+	}
+
+	@Override
+	public boolean isValid(int slot, ItemStack stack) {
+		return false;
 	}
 
 	@Override

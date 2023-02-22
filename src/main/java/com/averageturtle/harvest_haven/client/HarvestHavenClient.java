@@ -11,7 +11,7 @@ public class HarvestHavenClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient(ModContainer mod) {
-		HarvestHaven.LOGGER.info("Harvest Haven Client");
+		//HarvestHaven.LOGGER.info("Harvest Haven Client");
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), HHBlocks.CHICKEN_NEST);
 	}
 }

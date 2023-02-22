@@ -15,8 +15,8 @@ import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 public class HHItems {
 	public static void RegisterItems() {
 		HarvestHaven.LOGGER.info("Registering items!");
-		RegisterItem("test_item" ,new Item(new QuiltItemSettings()), ItemGroups.OP);
-		RegisterItem("second_test" ,new Item(new QuiltItemSettings()), ItemGroups.OP);
+		//RegisterItem("test_item" ,new Item(new QuiltItemSettings()), ItemGroups.OP);
+		//RegisterItem("second_test" ,new Item(new QuiltItemSettings()), ItemGroups.OP);
 	}
 
 	public static void RegisterItem(final String name, final Item item, final ItemGroup[] itemGroups) {

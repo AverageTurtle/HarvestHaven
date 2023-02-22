@@ -1,5 +1,6 @@
 package com.averageturtle.harvest_haven.mixin;
 
+import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.ChickenNest;
 import com.averageturtle.harvest_haven.block.HHBlocks;
 import com.averageturtle.harvest_haven.block.goals.FindNest;
@@ -11,6 +12,7 @@ import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -48,6 +50,18 @@ public class ChickenEntityMixin extends AnimalEntity implements ChickenEntityInt
 	public void harvest_haven$tickMovement(CallbackInfo ci) {
 		((ChickenEntity)(Object)this).eggLayTime = 6000;
 		hhEggLayTime--;
+	}
+
+	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+	public void harvest_haven$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+		if(nbt.contains("harvest_haven:EggLayTime")) {
+			this.hhEggLayTime = nbt.getInt("harvest_haven:EggLayTime");
+		}
+	}
+
+	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+	public void harvest_haven$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+		nbt.putInt("harvest_haven:EggLayTime", this.hhEggLayTime);
 	}
 
 	@Override
