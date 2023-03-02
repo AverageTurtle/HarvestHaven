@@ -1,6 +1,5 @@
 package com.averageturtle.harvest_haven.block.entity;
 
-import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.ChickenNest;
 import com.averageturtle.harvest_haven.block.HHBlocks;
 import net.minecraft.block.BlockState;
@@ -15,7 +14,7 @@ import org.quiltmc.qsl.block.entity.api.QuiltBlockEntity;
 public class ChickenNestBlockEntity extends BlockEntity implements Inventory, QuiltBlockEntity {
 
 	public ChickenNestBlockEntity(BlockPos pos, BlockState state) {
-		super(HHBlocks.CHICK_NEST_BLOCK_ENTITY, pos, state);
+		super(HHBlocks.CHICKEN_NEST_BLOCK_ENTITY, pos, state);
 	}
 
 	@Override
@@ -89,7 +88,6 @@ public class ChickenNestBlockEntity extends BlockEntity implements Inventory, Qu
 		} else {
 			return !(player.squaredDistanceTo((double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5) > 64.0);
 		}
-
 	}
 
 	@Override

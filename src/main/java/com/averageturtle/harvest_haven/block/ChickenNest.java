@@ -1,7 +1,6 @@
 package com.averageturtle.harvest_haven.block;
 
 import com.averageturtle.harvest_haven.HHBlockTags;
-import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.entity.ChickenNestBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -43,7 +42,6 @@ public class ChickenNest extends BlockWithEntity {
 
 		egg_count = count;
 		if(egg_count < state.get(FERTILE)) {
-			HarvestHaven.LOGGER.info(egg_count+" "+state.get(FERTILE));
 			world.setBlockState(pos, state.with(EGG_COUNT, egg_count).with(FERTILE, egg_count));
 		} else {
 			world.setBlockState(pos, state.with(EGG_COUNT, egg_count));
@@ -53,14 +51,12 @@ public class ChickenNest extends BlockWithEntity {
 	}
 	public ChickenNest(Settings settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(EGG_COUNT, 0));
-		setDefaultState(getDefaultState().with(FERTILE, 0));
+		setDefaultState(getDefaultState().with(EGG_COUNT, 0).with(FERTILE, 0));
 	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(EGG_COUNT);
-		builder.add(FERTILE);
+		builder.add(EGG_COUNT, FERTILE);
 	}
 
 	@Override

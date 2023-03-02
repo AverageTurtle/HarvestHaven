@@ -1,0 +1,91 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"pot": "harvest_haven:block/cooking_pot",
+		"particle": "#pot"
+	},
+	"elements": [
+		{
+			"name": "Bottom",
+			"from": [2, 0, 2],
+			"to": [14, 1, 14],
+			"faces": {
+				"north": {"uv": [0, 5.25, 3, 5.5], "texture": "#pot"},
+				"east": {"uv": [3, 5.25, 6, 5.5], "texture": "#pot"},
+				"south": {"uv": [6, 5.25, 9, 5.5], "texture": "#pot"},
+				"west": {"uv": [9, 5.25, 12, 5.5], "texture": "#pot"},
+				"up": {"uv": [3, 3, 0, 0], "texture": "#pot"},
+				"down": {"uv": [6, 0, 3, 3], "texture": "#pot", "cullface": "down"}
+			}
+		},
+		{
+			"name": "FrontSide",
+			"from": [2, 1, 2],
+			"to": [14, 10, 3],
+			"faces": {
+				"north": {"uv": [0, 3, 3, 5.25], "texture": "#pot"},
+				"east": {"uv": [3, 3, 3.25, 5.25], "texture": "#pot"},
+				"south": {"uv": [0, 5.5, 3, 7.75], "texture": "#pot"},
+				"west": {"uv": [9, 3, 9.25, 5.25], "texture": "#pot"},
+				"up": {"uv": [9, 0.25, 6, 0], "texture": "#pot"}
+			}
+		},
+		{
+			"name": "BackSide",
+			"from": [2, 1, 13],
+			"to": [14, 10, 14],
+			"faces": {
+				"north": {"uv": [6, 5.5, 9, 7.75], "texture": "#pot"},
+				"east": {"uv": [5.75, 3, 6, 5.25], "texture": "#pot"},
+				"south": {"uv": [6, 3, 9, 5.25], "texture": "#pot"},
+				"west": {"uv": [11.75, 3, 12, 5.25], "texture": "#pot"},
+				"up": {"uv": [9, 0.5, 6, 0.25], "texture": "#pot"}
+			}
+		},
+		{
+			"name": "LeftSide",
+			"from": [13, 1, 3],
+			"to": [14, 10, 13],
+			"faces": {
+				"east": {"uv": [3.25, 3, 5.75, 5.25], "texture": "#pot"},
+				"west": {"uv": [3.25, 5.5, 5.75, 7.75], "texture": "#pot"},
+				"up": {"uv": [9.5, 2.5, 9.25, 0], "texture": "#pot"}
+			}
+		},
+		{
+			"name": "LeftHandle",
+			"from": [14, 8, 6],
+			"to": [16, 9, 10],
+			"faces": {
+				"north": {"uv": [0.5, 15.75, 0, 16], "texture": "#pot"},
+				"east": {"uv": [1, 15.75, 2, 16], "texture": "#pot"},
+				"south": {"uv": [0.5, 15.75, 1, 16], "texture": "#pot"},
+				"up": {"uv": [0, 15.75, 0.5, 14.75], "texture": "#pot"},
+				"down": {"uv": [1, 14.75, 0.5, 15.75], "texture": "#pot"}
+			}
+		},
+		{
+			"name": "RightHandle",
+			"from": [0, 8, 6],
+			"to": [2, 9, 10],
+			"faces": {
+				"north": {"uv": [0, 15.75, 0.5, 16], "texture": "#pot"},
+				"south": {"uv": [0.5, 15.75, 1, 16], "texture": "#pot"},
+				"west": {"uv": [1, 15.75, 2, 16], "texture": "#pot"},
+				"up": {"uv": [0.5, 15.75, 0, 14.75], "texture": "#pot"},
+				"down": {"uv": [1, 14.75, 0.5, 15.75], "texture": "#pot"}
+			}
+		},
+		{
+			"name": "RightSide",
+			"from": [2, 1, 3],
+			"to": [3, 10, 13],
+			"faces": {
+				"east": {"uv": [9.25, 5.5, 11.75, 7.75], "texture": "#pot"},
+				"west": {"uv": [9.25, 3, 11.75, 5.25], "texture": "#pot"},
+				"up": {"uv": [9.25, 2.5, 9, 0], "texture": "#pot"}
+			}
+		}
+	],
+	"display": {}
+}

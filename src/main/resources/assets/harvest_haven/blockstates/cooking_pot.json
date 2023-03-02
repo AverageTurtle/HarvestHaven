@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "harvest_haven:block/cooking_pot",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "harvest_haven:block/cooking_pot"
+    },
+    "facing=south": {
+      "model": "harvest_haven:block/cooking_pot",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "harvest_haven:block/cooking_pot",
+      "y": 270
+    }
+  }
+}
