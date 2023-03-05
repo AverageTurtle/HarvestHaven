@@ -9,13 +9,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 @ClientOnly
 public class CookingPotBlockEntityRenderer implements BlockEntityRenderer<CookingPotBlockEntity> {
-	// A jukebox itemstack
-	private static ItemStack stack = new ItemStack(Items.DIAMOND, 1);
 
 	public CookingPotBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 	@Override
@@ -23,13 +20,22 @@ public class CookingPotBlockEntityRenderer implements BlockEntityRenderer<Cookin
 		if(blockEntity.getWorld() == null)
 			return;
 
-		matrices.push();
-		// Move the item
-		matrices.translate(0.5, 0.1, 0.5);
-		//matrices.scale(50.0f, 50.0f, 50.0f);
+		//RenderItems
+		double posY = 0.1;
+		for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
+			ItemStack stack = blockEntity.getStack(i);
+			if(stack == ItemStack.EMPTY)
+				continue;
 
-		int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos());
-		MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformation.Mode.GROUND, lightAbove, overlay, matrices, vertexConsumers, 0);
-		matrices.pop();
+			matrices.push();
+
+			matrices.translate(0.5, posY, 0.5);
+			//matrices.scale(50.0f, 50.0f, 50.0f);
+
+			int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos());
+			MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformation.Mode.GROUND, lightAbove, overlay, matrices, vertexConsumers, 0);
+			matrices.pop();
+			posY += 0.25;
+		}
 	}
 }

@@ -1,0 +1,14 @@
+{
+    "type": "harvest_haven:cooking_pot",
+    "ingredients": [
+        {
+          "item": "minecraft:brown_mushroom"
+        },
+        {
+          "item": "minecraft:red_mushroom"
+        }
+      ],
+    "result": {
+        "item": "minecraft:mushroom_stew"
+    }
+}

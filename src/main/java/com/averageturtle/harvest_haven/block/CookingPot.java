@@ -1,19 +1,32 @@
 package com.averageturtle.harvest_haven.block;
 
+import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.entity.CookingPotBlockEntity;
+import com.averageturtle.harvest_haven.recipe.CookingPotRecipe;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 
 public class CookingPot extends BlockWithEntity  {
@@ -22,6 +35,12 @@ public class CookingPot extends BlockWithEntity  {
 	protected CookingPot(Settings settings) {
 		super(settings);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return (world1, pos, state1, blockEntity) -> ((CookingPotBlockEntity)blockEntity).tick();
 	}
 
 	@Override
@@ -45,7 +64,25 @@ public class CookingPot extends BlockWithEntity  {
 		return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
 	}
 
+
 	//TODO (Sam) Figure out why these are deprecated
+	@SuppressWarnings("deprecation")
+	@Override
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if(world.isClient()) {
+			return ActionResult.SUCCESS;
+		}
+
+		CookingPotBlockEntity blockEntity = (CookingPotBlockEntity)world.getBlockEntity(pos);
+		Optional<CookingPotRecipe> match = world.getRecipeManager().getFirstMatch(HarvestHaven.COOKING_POT_RECIPE_TYPE, blockEntity, world);
+		if(match.isPresent()) {
+			assert blockEntity != null;
+			blockEntity.clear();
+			blockEntity.setStack(0, match.get().getOutput().copy());
+		}
+		return ActionResult.SUCCESS;
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
