@@ -5,14 +5,16 @@ import com.averageturtle.harvest_haven.HarvestHaven;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class HHItems {
 	public static void RegisterItems() {
 		HarvestHaven.LOGGER.info("Registering items!");
-		//RegisterItem("test_item" ,new Item(new QuiltItemSettings()), ItemGroups.OP);~
+		RegisterItem("wooden_mixing_spoon" ,new Item(new QuiltItemSettings()), ItemGroups.TOOLS_AND_UTILITIES);
 		//RegisterItem("second_test" ,new Item(new QuiltItemSettings()), ItemGroups.OP);~
 	}
 

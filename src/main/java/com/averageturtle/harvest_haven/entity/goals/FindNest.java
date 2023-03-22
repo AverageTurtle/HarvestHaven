@@ -1,4 +1,4 @@
-package com.averageturtle.harvest_haven.block.goals;
+package com.averageturtle.harvest_haven.entity.goals;
 
 import com.averageturtle.harvest_haven.block.ChickenNest;
 import com.averageturtle.harvest_haven.block.HHBlocks;

@@ -10,6 +10,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
@@ -21,7 +22,7 @@ import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 
 public class CookingPotRecipe implements Recipe<Inventory> {
 	private final Identifier id;
-	private final ItemStack result;
+	public final ItemStack result;
 	private final DefaultedList<HHItemIngredient> input;
 
 	public CookingPotRecipe(Identifier identifier, DefaultedList<HHItemIngredient> defaultedList,  ItemStack output) {
@@ -67,8 +68,8 @@ public class CookingPotRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public ItemStack craft(Inventory inventory) {
-		return this.getOutput().copy();
+	public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+		return this.getResult(registryManager).copy();
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class CookingPotRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public ItemStack getOutput() {
+	public ItemStack getResult(DynamicRegistryManager registryManager) {
 		return result;
 	}
 
@@ -96,7 +97,7 @@ public class CookingPotRecipe implements Recipe<Inventory> {
 		return HarvestHaven.COOKING_POT_RECIPE_TYPE;
 	}
 
-	public static class Serializer implements RecipeSerializer<CookingPotRecipe> {
+	public static class Serializer implements QuiltRecipeSerializer<CookingPotRecipe> {
 
 		@Override
 		public CookingPotRecipe read(Identifier id, JsonObject jsonObject) {
@@ -142,6 +143,13 @@ public class CookingPotRecipe implements Recipe<Inventory> {
 				ingredient.write(buf);
 			}
 			buf.writeItemStack(recipe.result);
+		}
+
+		@Override
+		public JsonObject toJson(CookingPotRecipe recipe) {
+			//TODO
+			HarvestHaven.LOGGER.warn("CookingPotRecipe.Serializer:toJson is not implemented!");
+			return null;
 		}
 	}
 }

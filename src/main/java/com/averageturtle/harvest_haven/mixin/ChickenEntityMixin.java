@@ -2,7 +2,7 @@ package com.averageturtle.harvest_haven.mixin;
 
 import com.averageturtle.harvest_haven.block.ChickenNest;
 import com.averageturtle.harvest_haven.block.HHBlocks;
-import com.averageturtle.harvest_haven.block.goals.FindNest;
+import com.averageturtle.harvest_haven.entity.goals.FindNest;
 import com.averageturtle.harvest_haven.entity.ChickenEntityInterface;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;

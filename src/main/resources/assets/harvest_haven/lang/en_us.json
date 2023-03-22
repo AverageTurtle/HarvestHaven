@@ -1,4 +1,9 @@
 {
     "item.harvest_haven.chicken_nest": "Chicken Nest",
-    "block.harvest_haven.chicken_nest": "Chicken Nest"
+    "block.harvest_haven.chicken_nest": "Chicken Nest",
+
+    "item.harvest_haven.cooking_pot": "Cooking Pot",
+    "block.harvest_haven.cooking_pot": "Cooking Pot",
+
+    "item.harvest_haven.wooden_mixing_spoon": "Wooden Mixing Spoon"
 }

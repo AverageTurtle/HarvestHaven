@@ -7,6 +7,7 @@ import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
@@ -33,7 +34,7 @@ public class CookingPotBlockEntityRenderer implements BlockEntityRenderer<Cookin
 			//matrices.scale(50.0f, 50.0f, 50.0f);
 
 			int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos());
-			MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformation.Mode.GROUND, lightAbove, overlay, matrices, vertexConsumers, 0);
+			MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformationMode.GROUND, false, matrices, vertexConsumers,lightAbove, overlay,MinecraftClient.getInstance().getItemRenderer().getModels().getModel(stack));
 			matrices.pop();
 			posY += 0.25;
 		}

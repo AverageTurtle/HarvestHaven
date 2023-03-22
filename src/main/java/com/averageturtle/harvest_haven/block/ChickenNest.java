@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -106,6 +107,7 @@ public class ChickenNest extends BlockWithEntity {
 		egg_count--;
 		if(SetEggCount(egg_count, world, pos))  {
 			player.giveItemStack(new ItemStack(Items.EGG, 1));
+			world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1.0f, (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 1.0F);
 			return ActionResult.SUCCESS;
 		}
 		else

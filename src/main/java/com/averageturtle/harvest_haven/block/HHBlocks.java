@@ -30,8 +30,8 @@ public class HHBlocks {
 	public static void RegisterBlocks() {
 		HarvestHaven.LOGGER.info("Registering blocks!");
 
-		RegisterBlock("chicken_nest", ItemGroups.NATURAL, CHICKEN_NEST);
-		RegisterBlock("cooking_pot", ItemGroups.FUNCTIONAL, COOKING_POT);
+		RegisterBlock("chicken_nest", ItemGroups.NATURAL_BLOCKS, CHICKEN_NEST);
+		RegisterBlock("cooking_pot", ItemGroups.FUNCTIONAL_BLOCKS, COOKING_POT);
 
 		Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(HarvestHaven.MODID, "chicken_nest"), CHICKEN_NEST_BLOCK_ENTITY);
 		Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(HarvestHaven.MODID, "cooking_pot"), COOKING_POT_BLOCK_ENTITY);

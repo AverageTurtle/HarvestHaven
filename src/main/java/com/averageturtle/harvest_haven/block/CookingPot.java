@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.util.ActionResult;
@@ -78,7 +79,7 @@ public class CookingPot extends BlockWithEntity  {
 		if(match.isPresent()) {
 			assert blockEntity != null;
 			blockEntity.clear();
-			blockEntity.setStack(0, match.get().getOutput().copy());
+			blockEntity.setStack(0, match.get().getResult(world.getRegistryManager()).copy());
 		}
 		return ActionResult.SUCCESS;
 	}

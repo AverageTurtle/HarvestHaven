@@ -3,6 +3,10 @@ package com.averageturtle.harvest_haven.block.entity;
 import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.HHBlocks;
 import io.netty.buffer.Unpooled;
+import io.netty.util.internal.UnstableApi;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,8 +27,16 @@ import java.util.Collection;
 
 public class CookingPotBlockEntity extends BlockEntity implements Inventory, QuiltBlockEntity {
 	public static final int INVENTORY_SIZE = 5;
-	public static final int RESERVE_SLOT = INVENTORY_SIZE-1;
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
+
+	public ChangedImpl changed = new ChangedImpl();
+	private static class ChangedImpl implements Runnable {
+		public void run() {
+			HarvestHaven.LOGGER.warn("CookingPotBlockEntity.ChangedImpl.run was run!");
+		}
+	}
+
+	public  final SingleFluidStorage fluidStorage = SingleFluidStorage.withFixedCapacity(FluidConstants.BUCKET, changed);
 
 	public static final Identifier UPDATE_INV_PACKET_ID = new Identifier(HarvestHaven.MODID, "update_cooking_pot");
 
