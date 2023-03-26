@@ -23,7 +23,7 @@ import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 public class CookingPotRecipe implements Recipe<Inventory> {
 	private final Identifier id;
 	public final ItemStack result;
-	private final DefaultedList<HHItemIngredient> input;
+	public final DefaultedList<HHItemIngredient> input;
 
 	public CookingPotRecipe(Identifier identifier, DefaultedList<HHItemIngredient> defaultedList,  ItemStack output) {
 		this.id = identifier;

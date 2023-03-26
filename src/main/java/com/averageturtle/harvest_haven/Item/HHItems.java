@@ -12,9 +12,11 @@ import net.minecraft.util.Identifier;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class HHItems {
+
+	public static Item WOODEN_MIXING_SPOON = new Item(new QuiltItemSettings());
 	public static void RegisterItems() {
 		HarvestHaven.LOGGER.info("Registering items!");
-		RegisterItem("wooden_mixing_spoon" ,new Item(new QuiltItemSettings()), ItemGroups.TOOLS_AND_UTILITIES);
+		RegisterItem("wooden_mixing_spoon", WOODEN_MIXING_SPOON, ItemGroups.TOOLS_AND_UTILITIES);
 		//RegisterItem("second_test" ,new Item(new QuiltItemSettings()), ItemGroups.OP);~
 	}
 
