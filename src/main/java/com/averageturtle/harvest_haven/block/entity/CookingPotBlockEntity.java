@@ -2,11 +2,9 @@ package com.averageturtle.harvest_haven.block.entity;
 
 import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.HHBlocks;
+import com.averageturtle.harvest_haven.recipe.CookingPotRecipe;
+import com.averageturtle.harvest_haven.recipe.HHIngredient;
 import io.netty.buffer.Unpooled;
-import io.netty.util.internal.UnstableApi;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,27 +14,33 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.entity.api.QuiltBlockEntity;
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class CookingPotBlockEntity extends BlockEntity implements Inventory, QuiltBlockEntity {
 	public static final int INVENTORY_SIZE = 5;
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
+	public int mixingTime = 0;
+	@Nullable
+	private CookingPotRecipe mixingMatch = null;
+	//public ChangedImpl changed = new ChangedImpl();
+	//private static class ChangedImpl implements Runnable {
+	//	public void run() {
+	//		HarvestHaven.LOGGER.warn("CookingPotBlockEntity.ChangedImpl.run was run!");
+	//	}
+	//}
 
-	public ChangedImpl changed = new ChangedImpl();
-	private static class ChangedImpl implements Runnable {
-		public void run() {
-			HarvestHaven.LOGGER.warn("CookingPotBlockEntity.ChangedImpl.run was run!");
-		}
-	}
-
-	public  final SingleFluidStorage fluidStorage = SingleFluidStorage.withFixedCapacity(FluidConstants.BUCKET, changed);
+	//public  final SingleFluidStorage fluidStorage = SingleFluidStorage.withFixedCapacity(FluidConstants.BUCKET, changed);
 
 	public static final Identifier UPDATE_INV_PACKET_ID = new Identifier(HarvestHaven.MODID, "update_cooking_pot");
 
@@ -44,6 +48,70 @@ public class CookingPotBlockEntity extends BlockEntity implements Inventory, Qui
 		super(HHBlocks.COOKING_POT_BLOCK_ENTITY, pos, state);
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
+	public Boolean CanCraft() {
+		if(this.IsMixing())
+			return false;
+		{
+			int empty = -1;
+			for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
+				ItemStack stack = this.getStack(i);
+				if(stack.isEmpty()) {
+					empty = i;
+					break;
+				}
+			}
+			if(empty < 0)
+				return false;
+		}
+		assert world != null;
+		Optional<CookingPotRecipe> match = world.getRecipeManager().getFirstMatch(HarvestHaven.COOKING_POT_RECIPE_TYPE, this, world);
+		if(match.isPresent()) {
+			mixingMatch = match.get();
+			return true;
+		}
+		return false;
+	}
+
+	public boolean IsMixing() { return mixingTime > 0; }
+
+	public void AttemptToBeginCraft() {
+		if(CanCraft()) {
+			mixingTime = 200;
+			SendUpdatePacket();
+		}
+	}
+	public void  FinishCraft() {
+		if(world == null || !CanCraft()) {
+			world.playSound(null, pos, SoundEvents.BLOCK_ANCIENT_DEBRIS_BREAK, SoundCategory.BLOCKS, 0.3F, 0.1f);
+			SendUpdatePacket();
+			return;
+		}
+
+		assert mixingMatch != null;
+		for (HHIngredient.HHItemIngredient ingredient : mixingMatch.input) {
+			for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
+				if(ingredient.ingredient().test(this.getStack(i))) {
+					this.removeStack(i, ingredient.count());
+					break;
+				}
+			}
+		}
+
+
+		//TODO Stacking of results for stackable items
+		int empty = -1;
+		for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
+			ItemStack stack = this.getStack(i);
+			if(stack.isEmpty()) {
+				empty = i;
+				break;
+			}
+		}
+		assert empty < 0;
+
+		this.setStack(empty, mixingMatch.getResult(world.getRegistryManager()).copy());
+	}
 	//TODO(Sam): Figure out a more efficient way to do this
 	private Collection<ServerPlayerEntity> lastViewers = null;
 	public void tick() {
@@ -54,14 +122,20 @@ public class CookingPotBlockEntity extends BlockEntity implements Inventory, Qui
 			}
 			lastViewers = viewers;
 		}
+		if(IsMixing()) {
+			--mixingTime;
+			if(!IsMixing()) {
+				FinishCraft();
+			}
+		}
 	}
-
 
 	public void SendUpdatePacket() {
 		if (world != null && !world.isClient) {
 			Collection<ServerPlayerEntity> viewers = PlayerLookup.tracking(this);
 			PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 			buf.writeBlockPos(pos);
+			buf.writeInt(mixingTime);
 			for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
 				buf.writeItemStack(getStack(i));
 			}

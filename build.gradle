@@ -1,4 +1,4 @@
-plugins {
+ plugins {
 	id 'maven-publish'
 	id 'org.quiltmc.loom' version '1.+'
 }
@@ -33,7 +33,6 @@ processResources {
 		expand "version": project.version
 	}
 }
-
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = 'UTF-8'
 	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.

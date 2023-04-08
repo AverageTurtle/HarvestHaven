@@ -1,10 +1,7 @@
 package com.averageturtle.harvest_haven.block;
 
-import com.averageturtle.harvest_haven.HarvestHaven;
 import com.averageturtle.harvest_haven.block.entity.CookingPotBlockEntity;
 import com.averageturtle.harvest_haven.item.HHItems;
-import com.averageturtle.harvest_haven.recipe.CookingPotRecipe;
-import com.averageturtle.harvest_haven.recipe.HHIngredient.HHItemIngredient;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -13,14 +10,10 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -30,53 +23,10 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 
 public class CookingPot extends BlockWithEntity  {
 	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 
-	public static Boolean AttemptCraft(World world, CookingPotBlockEntity blockEntity) {
-		{
-			int empty = -1;
-			for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
-				ItemStack stack = blockEntity.getStack(i);
-				if(stack.isEmpty()) {
-					empty = i;
-					break;
-				}
-			}
-			if(empty < 0)
-				return false;
-		}
-		Optional<CookingPotRecipe> match = world.getRecipeManager().getFirstMatch(HarvestHaven.COOKING_POT_RECIPE_TYPE, blockEntity, world);
-		if(match.isPresent()) {
-			CookingPotRecipe recipe = match.get();
-			for (HHItemIngredient ingredient : recipe.input) {
-				for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
-					if(ingredient.ingredient().test(blockEntity.getStack(i)))
-						blockEntity.removeStack(i, ingredient.count());
-				}
-			}
-
-
-			//TODO Stacking of results for stackable items
-			int empty = -1;
-			for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
-				ItemStack stack = blockEntity.getStack(i);
-				if(stack.isEmpty()) {
-					empty = i;
-					break;
-				}
-			}
-			assert empty < 0;
-
-			blockEntity.setStack(empty, recipe.getResult(world.getRegistryManager()).copy());
-			return true;
-		}
-
-		return false;
-	}
 	protected CookingPot(Settings settings) {
 		super(settings);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
@@ -112,6 +62,23 @@ public class CookingPot extends BlockWithEntity  {
 	//TODO (Sam) Figure out why these are deprecated
 	@SuppressWarnings("deprecation")
 	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (!state.isOf(newState.getBlock())) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof CookingPotBlockEntity) {
+				if (world instanceof ServerWorld) {
+					ItemScatterer.spawn(world, pos, (CookingPotBlockEntity)blockEntity);
+				}
+				//world.updateComparators(pos, this);
+			}
+
+			super.onStateReplaced(state, world, pos, newState, moved);
+		}
+	}
+
+
+	@SuppressWarnings("deprecation")
+	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if(world.isClient()) {
 			return ActionResult.SUCCESS;
@@ -121,7 +88,6 @@ public class CookingPot extends BlockWithEntity  {
 		CookingPotBlockEntity blockEntity = (CookingPotBlockEntity)world.getBlockEntity(pos);
 		if(blockEntity == null)
 			return ActionResult.PASS;
-
 
 		if(playerStack.isEmpty()) {
 			for(int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
@@ -138,7 +104,7 @@ public class CookingPot extends BlockWithEntity  {
 		}
 
 		if(playerStack.isOf(HHItems.WOODEN_MIXING_SPOON)) {
-			AttemptCraft(world, blockEntity);
+			blockEntity.AttemptToBeginCraft();
 			return ActionResult.SUCCESS;
 		}
 

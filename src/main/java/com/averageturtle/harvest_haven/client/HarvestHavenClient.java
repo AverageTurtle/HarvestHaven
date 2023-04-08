@@ -26,8 +26,11 @@ public class HarvestHavenClient implements ClientModInitializer {
 
 		//Cooking pot rendering
 		BlockEntityRendererFactories.register(HHBlocks.COOKING_POT_BLOCK_ENTITY, CookingPotBlockEntityRenderer::new);
+
+		//Cooking pot update inv packet
 		ClientPlayNetworking.registerGlobalReceiver(CookingPotBlockEntity.UPDATE_INV_PACKET_ID, ((client, handler, buf, responseSender) -> {
 			BlockPos pos = buf.readBlockPos();
+			int mixingTime = buf.readInt();
 			DefaultedList<ItemStack> inv = DefaultedList.ofSize(CookingPotBlockEntity.INVENTORY_SIZE, ItemStack.EMPTY);
 			for (int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
 				inv.set(i, buf.readItemStack());
@@ -35,8 +38,9 @@ public class HarvestHavenClient implements ClientModInitializer {
 			client.execute(() -> {
 				assert MinecraftClient.getInstance().world != null;
 				CookingPotBlockEntity blockEntity = (CookingPotBlockEntity) MinecraftClient.getInstance().world.getBlockEntity(pos);
+				assert blockEntity != null;
+				blockEntity.mixingTime = mixingTime;
 				for (int i = 0; i < CookingPotBlockEntity.INVENTORY_SIZE; i++) {
-					assert blockEntity != null;
 					blockEntity.setStack(i, inv.get(i));
 				}
 			});

@@ -1,0 +1,17 @@
+{
+    "type": "harvest_haven:cooking_pot",
+    "ingredients": [
+        {
+          "item": "minecraft:egg"
+        },
+        {
+          "item": "minecraft:sugar"
+        },
+        {
+          "item": "minecraft:pumpkin"
+        }
+      ],
+    "result": {
+        "item": "minecraft:pumpkin_pie"
+    }
+}

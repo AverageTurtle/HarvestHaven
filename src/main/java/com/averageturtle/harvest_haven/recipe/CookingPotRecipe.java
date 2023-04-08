@@ -33,38 +33,30 @@ public class CookingPotRecipe implements Recipe<Inventory> {
 
 	@Override
 	public boolean matches(Inventory inventory, World world) {
-		if(inventory.isEmpty()) return false;
+		if(inventory.isEmpty())
+			return false;
 
 		DefaultedList<HHItemIngredient> notFound = DefaultedList.of();
 		for(HHItemIngredient ingredient : input) {
 			notFound.add(new HHItemIngredient(ingredient.ingredient(), ingredient.count()));
 		}
 
-		//HashMap<HHItemIngredient, Integer> ingredientHashMap = new HashMap<HHItemIngredient, Integer>(); //Ingredient to slot in target inventory
-		int lastOpenSlot = -1;
-
 
 		for(int i= 0; i < inventory.size(); i++) {
 			ItemStack itemStack = inventory.getStack(i);
-			if(itemStack == ItemStack.EMPTY) {
-				lastOpenSlot = i;
-				continue;
-			}
-			boolean invalid = true;
 			for(int j = 0; j < notFound.size(); j++) {
 				HHItemIngredient ingredient = notFound.get(j);
 				if(ingredient.ingredient().test(itemStack) && ingredient.count() <= itemStack.getCount()) {
 					//ingredientHashMap.put(ingredient, i);
 					notFound.remove(j);
-					invalid= false;
 					break;
 				}
 			}
-			if(invalid && !itemStack.isOf(result.getItem()))
-				return false;
 		}
 
-		return notFound.size() == 0 && lastOpenSlot > -1;
+		boolean e = notFound.size() == 0;
+		assert e;
+		return e;
 	}
 
 	@Override
